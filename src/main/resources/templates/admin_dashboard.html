@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/admin_dashboard.css">
+</head>
+
+<body>
+<div class="container ">
+
+        <form action="#" th:action="@{/admin_dashboard}" th:object="${addedCompany}" method="post">
+            <div class="row col-md-12 align-content-md-right">
+                <div class="my-tf" ><p> Enter New Company :  <input type="text" th:field="*{company_name}" /></p></div>
+                <div class="my-tf" ><p> Enter Currency: <input type="text" th:field="*{currency}" /></p></div>
+                <div class="my-tf" ><button name="action" value="add_company" type="submit">Add Company</button></div>
+            </div>
+        </form>
+
+        <div class="row col-md-12 align-content-md-center company">
+            <!--  <button type="button" class="btn btn-primary" th:attr="onclick=|upload('${gallery}')|" method="post"> Add Company</button>-->
+            <form style="display:inline-block" action ="#" th:action="@{/admin_dashboard}" th:object="${company}"
+                  method="post">
+                <div class="row col-md-12" th:object="${company}">
+                    <select class="form-control" id="testOrder" name="testOrder">
+                        <option th:each="company : ${companies}"
+                                th:value="${company.company_name}"
+                                th:text="${company.company_name + ', ' + company.getCurrency()}"></option>
+
+                    </select>
+                </div>
+            </form>
+
+    </div>
+</div>
+
+
+<div class="container">
+    <form action="#" th:action="@{/generate}" method="post">
+        <div class="row col-md-12 align-content-md-right">
+            <div class="my-tf" ><p> Enter Number of Invoices To Generate: <input type="text" name="nbBills" /></p></div>
+            <div class="my-tf" ><button name="action" value="generate_bills" type="submit"> Generate </button></div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <h1>Customer Table</h1>
+
+    <div class="row col-md-8 table-striped">
+        <table class="table" id="customerTable">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Surame</th>
+                <th>Email</th>
+                <th>Birthdate</th>
+                <th>Address</th>
+                <th>Negative Sum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${userList}" >
+                <form action="#" th:action="@{/admin_dashboard}" th:object="${userObj}" method="post">
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.surname}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.birthdate}"></td>
+                    <td th:text="${user.address}"></td>
+                    <td><input type="hidden" name="sendEmail" th:value="${user.email}" />
+                        <button class="btn-dark btn"  name="action" value="send_email" type="submit">Send Email</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
